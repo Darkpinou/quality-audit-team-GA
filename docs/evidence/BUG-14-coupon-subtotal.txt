@@ -1,0 +1,25 @@
+# BUG-14 : /api/coupons/validate calcule la remise sur le subtotal envoyé par le client
+# 09/10/2026 11:53
+
+## Subtotal inventé de 1000 € (aucun panier)
+$ curl -H X-API-Key: quickorder-demo-key -H Content-Type: application/json -d {"code":"SAVE20","subtotal":1000} http://127.0.0.1:5000/api/coupons/validate
+{
+  "code": "SAVE20",
+  "discount": 12.0,
+  "discount_percent": 20.0,
+  "valid": true
+}
+
+[HTTP 200]
+
+## Subtotal de 35 € annoncé alors qu'aucun panier n'existe (seuil exact de SAVE20)
+$ curl -H X-API-Key: quickorder-demo-key -H Content-Type: application/json -d {"code":"SAVE20","subtotal":35} http://127.0.0.1:5000/api/coupons/validate
+{
+  "code": "SAVE20",
+  "discount": 7.0,
+  "discount_percent": 20.0,
+  "valid": true
+}
+
+[HTTP 200]
+

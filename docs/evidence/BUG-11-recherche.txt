@@ -1,0 +1,33 @@
+# BUG-11 : la recherche ignore la description des restaurants
+# 09/10/2026 11:53
+
+## Green Kitchen a bien 'salades' dans sa description
+$ curl -H X-API-Key: quickorder-demo-key http://127.0.0.1:5000/api/restaurants/3
+{
+  "address": "41 rue de Lyon, Paris",
+  "category": "Healthy",
+  "delivery_fee": 1.99,
+  "delivery_time_min": 20,
+  "description": "Salades, wraps et options v\u00e9g\u00e9tariennes.",
+  "id": 3,
+  "is_open": true,
+  "minimum_order": 12.0,
+  "name": "Green Kitchen",
+  "promo_text": "",
+  "rating": 4.5
+}
+
+[HTTP 200]
+
+## Recherche API q=salade
+$ curl -H X-API-Key: quickorder-demo-key http://127.0.0.1:5000/api/restaurants?q=salade
+{
+  "count": 0,
+  "items": []
+}
+
+[HTTP 200]
+
+## Recherche UI q=salade : nombre de cartes restaurant dans la page
+$ curl -s 'http://127.0.0.1:5000/?q=salade' | grep -c 'Green Kitchen'
+0

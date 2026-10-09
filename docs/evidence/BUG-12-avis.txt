@@ -1,0 +1,18 @@
+# BUG-12 : avis publié sans avoir commandé
+# 09/10/2026 11:53, compte bob@example.com
+
+## Connexion de Bob
+[HTTP 302] redirection vers http://127.0.0.1:5000/
+
+## Commandes de Bob : restaurants présents dans /orders
+$ curl -s -b session http://127.0.0.1:5000/orders | grep -c 'Pizza Roma'
+0
+
+## Avis n°1 sur Pizza Roma (restaurant 4), en suivant la redirection
+$ curl -s -L -b session -d 'rating=1&comment=Test QA sans commande' http://127.0.0.1:5000/restaurant/4/review | grep 'Merci pour votre avis'
+Merci pour votre avis !
+
+## Avis n°2 sur Pizza Roma (restaurant 4), en suivant la redirection
+$ curl -s -L -b session -d 'rating=1&comment=Test QA sans commande' http://127.0.0.1:5000/restaurant/4/review | grep 'Merci pour votre avis'
+Merci pour votre avis !
+

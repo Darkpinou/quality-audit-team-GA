@@ -1,0 +1,50 @@
+# BUG-07 : L'API agit au nom d'Alice pour tout détenteur de la clé API
+# 09/10/2026 10:41, curl sans cookie de session : aucun utilisateur connecté
+
+## 1. Lecture des commandes d'Alice sans authentification
+$ curl -s http://127.0.0.1:5000/api/orders -H 'X-API-Key: quickorder-demo-key'
+count = 9
+  #9 restaurant 1 confirmed  card    24.41 €
+  #8 restaurant 2 confirmed  card    51.19 €
+  #7 restaurant 5 confirmed  card    6.49 €
+  #6 restaurant 6 confirmed  paypal  16.99 €
+  #5 restaurant 6 confirmed  paypal  16.99 €
+  #4 restaurant 1 confirmed  cash    26.79 €
+  #3 restaurant 1 confirmed  paypal  26.79 €
+  #2 restaurant 1 confirmed  paypal  26.79 €
+  #1 restaurant 1 delivered  card    18.39 €
+[HTTP 200]
+
+
+## 2. Annulation d'une commande d'Alice (#9) sans authentification
+$ curl -s -X POST http://127.0.0.1:5000/api/orders/9/cancel -H 'X-API-Key: quickorder-demo-key'
+{
+  "cash_received": null,
+  "change_due": null,
+  "created_at": "2026-10-09T08:41:46.335985",
+  "delivery_fee": 2.99,
+  "discount": 2.38,
+  "id": 9,
+  "items": [
+    {
+      "line_total": 23.8,
+      "product_id": 1,
+      "product_name": "Classic Burger",
+      "quantity": 2,
+      "unit_price": 11.9
+    }
+  ],
+  "payment_method": "card",
+  "payment_status": "paid",
+  "restaurant_id": 1,
+  "status": "cancelled",
+  "subtotal": 23.8,
+  "total": 24.41
+}
+
+[HTTP 200]
+
+## 3. Création au nom d'Alice : voir BUG-06-api.txt (commande #9 créée sans session, HTTP 201)
+
+## Vérification en base (lecture seule)
+Order #9 : user = alice@example.com, status = cancelled.

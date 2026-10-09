@@ -1,0 +1,16 @@
+# BUG-05 : Stock négatif après commande de 3 Salmon Bowl (stock initial 2)
+# 09/10/2026 10:34
+
+$ curl -s -H 'X-API-Key: quickorder-demo-key' http://127.0.0.1:5000/api/products/7
+{
+    "available": true,
+    "calories": 590,
+    "category": "Bowls",
+    "description": "Saumon, avocat, riz vinaigr\u00e9",
+    "id": 7,
+    "is_vegetarian": false,
+    "name": "Salmon Bowl",
+    "price": 15.9,
+    "restaurant_id": 2,
+    "stock": -1
+}

@@ -1,0 +1,38 @@
+# BUG-13 : l'API liste les restaurants fermés
+# 09/10/2026 11:53
+
+$ curl -H X-API-Key: quickorder-demo-key http://127.0.0.1:5000/api/restaurants?category=Japonais
+{
+  "count": 2,
+  "items": [
+    {
+      "address": "8 avenue de l'Op\u00e9ra, Paris",
+      "category": "Japonais",
+      "delivery_fee": 3.49,
+      "delivery_time_min": 35,
+      "description": "Cuisine japonaise et bowls frais.",
+      "id": 2,
+      "is_open": true,
+      "minimum_order": 15.0,
+      "name": "Tokyo Bowl",
+      "promo_text": "Livraison gratuite d\u00e8s 30 \u20ac avec TOKYO30",
+      "rating": 4.8
+    },
+    {
+      "address": "5 rue des Tests, Paris",
+      "category": "Japonais",
+      "delivery_fee": 2.99,
+      "delivery_time_min": 45,
+      "description": "Restaurant ferm\u00e9 \u2014 uniquement pour les tests QA.",
+      "id": 6,
+      "is_open": false,
+      "minimum_order": 10.0,
+      "name": "Night Sushi",
+      "promo_text": "Ferm\u00e9 aujourd'hui",
+      "rating": 3.8
+    }
+  ]
+}
+
+[HTTP 200]
+
